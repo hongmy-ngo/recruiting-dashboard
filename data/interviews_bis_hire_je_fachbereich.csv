@@ -1,0 +1,18 @@
+functional_area,n_hires,median_interviews,median_apps,avg_score,qualifiziert_pct
+Craft & Construction,163,1.0,20.0,0.55,69.9
+Helpers,28,1.0,17.0,0.6,80.6
+Mobility,42,1.0,10.0,0.56,71.6
+Finance,255,2.0,21.0,0.62,78.2
+Human Resources,119,2.0,19.0,0.65,81.5
+"Management, Führung & Strategie",123,2.0,22.0,0.62,77.9
+Legal,55,2.0,17.0,0.63,81.3
+Engineering & Production,394,2.0,18.0,0.58,72.9
+Support,373,2.0,26.0,0.65,80.9
+Procurement & Supply Chain,94,2.0,17.0,0.62,75.6
+Tech,398,2.0,34.0,0.6,66.6
+Healthcare,108,2.5,13.5,0.66,81.9
+Other,39,3.0,30.0,0.59,81.0
+Sales,306,3.0,31.0,0.66,82.5
+Marketing,301,3.0,22.0,0.65,78.3
+Hospitality,20,4.0,16.0,0.58,73.8
+Education,24,4.0,29.5,0.64,79.5

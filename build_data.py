@@ -92,4 +92,55 @@ by_type = (
 )
 by_type.to_csv(f"{OUT_DIR}/success_by_type.csv", index=False)
 
+# 8. "Wie viele Bewerbungen/Interviews braucht eine Stelle wirklich?"
+# Fuer jeden Job mit Hire: Zeitpunkt der muendlichen Zusage (assurance) des
+# erfolgreichen Kandidaten = Moment, an dem der Hire "gesichert" war.
+# Dann zaehlen wir, wie viele Interviews/Bewerbungen (ueber ALLE Kandidat:innen
+# der Stelle) bis zu diesem Zeitpunkt bereits stattgefunden hatten.
+hires = df[df["relative_date_of_assurance"].notna() & df["success"]].groupby("enquiry_pid")["relative_date_of_assurance"].min()
+hires.name = "hire_secured_day"
+
+apps = df[["enquiry_pid", "relative_date_of_selection", "relative_date_of_interview", "functional_area",
+           "cjs_overall_score", "is_qualified_application"]].copy()
+apps = apps.merge(hires, on="enquiry_pid", how="inner")
+apps["app_before_hire"] = apps["relative_date_of_selection"] <= apps["hire_secured_day"]
+apps["interview_before_hire"] = apps["relative_date_of_interview"].notna() & (apps["relative_date_of_interview"] <= apps["hire_secured_day"])
+
+per_job = apps.groupby("enquiry_pid").agg(
+    functional_area=("functional_area", "first"),
+    n_apps_bis_hire=("app_before_hire", "sum"),
+    n_interviews_bis_hire=("interview_before_hire", "sum"),
+).reset_index()
+
+pool = df.groupby("enquiry_pid").agg(
+    avg_score=("cjs_overall_score", "mean"),
+    qualifiziert_pct=("is_qualified_application", lambda x: round(x.mean() * 100, 1)),
+).reset_index()
+per_job = per_job.merge(pool, on="enquiry_pid", how="left")
+
+# 8a. Kumulative Verteilung (gesamt + Tech + Craft & Construction zum Vergleich)
+def cum_dist(sub, max_x=6):
+    total = len(sub)
+    rows = []
+    for x in range(0, max_x + 1):
+        rows.append({"interviews": x, "anteil_pct": round((sub["n_interviews_bis_hire"] <= x).mean() * 100, 1)})
+    return pd.DataFrame(rows)
+
+cum_overall = cum_dist(per_job).assign(gruppe="Alle Fachbereiche")
+cum_tech = cum_dist(per_job[per_job["functional_area"] == "Tech"]).assign(gruppe="Tech")
+cum_craft = cum_dist(per_job[per_job["functional_area"] == "Craft & Construction"]).assign(gruppe="Craft & Construction")
+cum_all = pd.concat([cum_overall, cum_tech, cum_craft], ignore_index=True)
+cum_all.to_csv(f"{OUT_DIR}/interviews_bis_hire_kumulativ.csv", index=False)
+
+# 8b. Tabelle je Fachbereich (nur mit genug Hires fuer verlaessliche Zahlen)
+area_table = per_job.groupby("functional_area").agg(
+    n_hires=("enquiry_pid", "count"),
+    median_interviews=("n_interviews_bis_hire", "median"),
+    median_apps=("n_apps_bis_hire", "median"),
+    avg_score=("avg_score", lambda x: round(x.mean(), 2)),
+    qualifiziert_pct=("qualifiziert_pct", lambda x: round(x.mean(), 1)),
+).reset_index()
+area_table = area_table[area_table["n_hires"] >= 20].sort_values("median_interviews")
+area_table.to_csv(f"{OUT_DIR}/interviews_bis_hire_je_fachbereich.csv", index=False)
+
 print(f"Fertig. Dateien liegen in {OUT_DIR}")

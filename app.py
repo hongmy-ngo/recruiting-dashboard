@@ -44,6 +44,8 @@ by_area = load("success_by_area")
 by_discipline = load("success_by_discipline")
 by_qualified = load("success_by_qualified")
 by_type = load("success_by_type")
+cum_interviews = load("interviews_bis_hire_kumulativ")
+area_threshold = load("interviews_bis_hire_je_fachbereich")
 
 st.title("Recruiting-Dashboard")
 st.caption("Erkenntnisse aus applications_dataset_v2.csv")
@@ -170,3 +172,80 @@ with col_right2:
                        color_discrete_sequence=[PINK])
     fig_type.update_layout(**PLOTLY_LAYOUT, xaxis_title="", yaxis_title="Erfolgsquote (%)", height=230)
     st.plotly_chart(fig_type, use_container_width=True)
+
+st.divider()
+
+# --- Wann sind "genug" Bewerbungen da? -----------------------------------
+st.header("Wann hat eine Stelle 'genug' Bewerbungen?")
+st.markdown(
+    """
+**Methodik:** Für jede Stelle mit einer erfolgreichen Einstellung wurde geprüft, an welchem Tag die
+mündliche Zusage des späteren Hires kam — das ist der Moment, an dem der Ausgang faktisch feststand.
+Dann wurde gezählt: Wie viele Interviews und Bewerbungen (über alle Kandidat:innen dieser Stelle
+hinweg) gab es bis zu diesem Zeitpunkt bereits? Das zeigt, ab wann eine Stelle im Rückblick
+"ausreichend versorgt" war — nicht als feste Regel, sondern als Wahrscheinlichkeits-Aussage.
+    """
+)
+
+col_a, col_b = st.columns([3, 2])
+
+with col_a:
+    st.subheader("Nach wie vielen Interviews stand der Hire meistens schon fest?")
+    st.caption(
+        "Beispiel: Liegt die Linie bei 2 Interviews auf 56%, heißt das: Bei 56% aller Stellen mit "
+        "einer Einstellung war der spätere Hire bereits nach höchstens 2 Interviews klar. "
+        "Verglichen werden alle Fachbereiche zusammen mit den zwei angefragten Beispielen "
+        "Tech und Craft & Construction (Handwerk & Bau)."
+    )
+    fig_cum = px.line(
+        cum_interviews, x="interviews", y="anteil_pct", color="gruppe", markers=True,
+        color_discrete_map={"Alle Fachbereiche": INK, "Tech": PINK, "Craft & Construction": "#B8135D"},
+    )
+    fig_cum.update_layout(**PLOTLY_LAYOUT, xaxis_title="Anzahl Interviews", yaxis_title="Anteil der Hires bereits erreicht (%)",
+                           height=420, legend_title="")
+    st.plotly_chart(fig_cum, use_container_width=True)
+
+    st.markdown(
+        "**Kernaussage:** Handwerk & Bau braucht im Schnitt spürbar weniger — bei der Hälfte dieser "
+        "Stellen reichte **1 Interview**, um den späteren Hire zu finden. Bei Tech-Stellen braucht es "
+        "typischerweise **2 Interviews**, und der Prozess zieht sich insgesamt länger (siehe Tabelle "
+        "rechts: mehr Bewerbungen nötig, bevor überhaupt interviewt wird)."
+    )
+
+with col_b:
+    st.subheader("Nach Fachbereich sortiert")
+    st.caption(
+        "Median = der Wert in der Mitte, weniger anfällig für Ausreißer als der Durchschnitt. "
+        "Nur Fachbereiche mit mindestens 20 Einstellungen gezeigt, damit die Zahlen belastbar sind."
+    )
+    st.dataframe(
+        area_threshold.rename(columns={
+            "functional_area": "Fachbereich", "n_hires": "Hires (n)",
+            "median_interviews": "Median Interviews bis Hire", "median_apps": "Median Bewerbungen bis Hire",
+            "avg_score": "Ø Fit-Score Bewerberpool", "qualifiziert_pct": "Qualifiziert (%)",
+        }),
+        hide_index=True, use_container_width=True, height=420,
+    )
+
+st.markdown(
+    """
+**Welche Faktoren spielen mit rein — und welche nicht?**
+
+- **Fachbereich ist der stärkste Einflussfaktor.** Handwerk & Bau, Mobility und Helpers brauchen am
+  wenigsten Interviews bis zum Hire (Median 1), während Education, Hospitality und Sales am meisten
+  brauchen (Median 3–4). Das spiegelt vermutlich reale Marktunterschiede: In manchen Bereichen gibt es
+  wenige, klar geeignete Kandidat:innen; in anderen (z. B. Sales, Marketing) ist die Auswahl größer und
+  unübersichtlicher.
+- **Bewerber-Qualität erklärt den Unterschied kaum.** Der durchschnittliche Fit-Score und der Anteil
+  qualifizierter Bewerbungen im Kandidatenpool korrelieren nur sehr schwach mit der Anzahl nötiger
+  Interviews (~0.1). Sprich: Es liegt nicht daran, dass Tech-Bewerber:innen "schlechter passen" — der
+  Prozess selbst dauert dort einfach strukturell länger.
+- **Tech braucht zusätzlich deutlich mehr Bewerbungen vorab** (Median 34 vs. 20 bei Handwerk & Bau),
+  bevor überhaupt genug Interviews stattfinden. Eine pauschale "ab X Bewerbungen ist genug"-Regel würde
+  Tech-Stellen also systematisch zu früh abschneiden und Handwerk-Stellen zu lange offen halten.
+
+**Vorschlag für eine Definition:** Statt einer festen Zahl lohnt sich ein Schwellenwert *pro
+Fachbereich*, z. B. der Median aus der Tabelle links als Richtwert — ergänzt um eine Sicherheitsmarge
+(z. B. Median + 1 Interview), da bei exakt dem Median nur die Hälfte der Fälle abgedeckt ist.
+    """
+)
