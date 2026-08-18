@@ -25,7 +25,7 @@ PINK = "#D91C6E"
 PINK_TINT = "#F6C9DD"
 INK = "#1F2430"
 
-st.set_page_config(page_title="Recruiting-Dashboard", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Recruiting-Dashboard", layout="wide")
 
 px.defaults.template = "plotly_white"
 PLOTLY_LAYOUT = dict(template="plotly_white", paper_bgcolor="white", plot_bgcolor="white")
@@ -45,7 +45,7 @@ by_discipline = load("success_by_discipline")
 by_qualified = load("success_by_qualified")
 by_type = load("success_by_type")
 
-st.title("📊 Recruiting-Dashboard")
+st.title("Recruiting-Dashboard")
 st.caption("Erkenntnisse aus applications_dataset_v2.csv")
 
 # --- KPI-Kacheln ---------------------------------------------------------
