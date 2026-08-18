@@ -4,7 +4,7 @@ Streamlit-Dashboard mit den wichtigsten Erkenntnissen aus `applications_dataset_
 Bewerbungs-Funnel, fehlende Werte, Score-Verteilung, Erfolgsquote nach Fachbereich,
 Discipline, Qualifikationsstatus und Anstellungsart.
 
-**Live-App:** _[Link hier einfügen, sobald auf Streamlit Cloud deployed]_
+**Live-App:** https://recruiting-dashboard-q5xsyhua7zszfhvfzvnpfm.streamlit.app/
 
 ## Lokal starten
 
