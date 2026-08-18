@@ -219,6 +219,9 @@ st.dataframe(
         "functional_area": "Fachbereich", "n_hires": "Hires (n)",
         "median_interviews": "Median Interviews bis Hire", "median_apps": "Median Bewerbungen bis Hire",
         "avg_score": "Ø Fit-Score Bewerberpool", "qualifiziert_pct": "Qualifiziert (%)",
+        "empf_schwellenwert": "Empf. Schwellenwert (Median + 1)",
+        "abdeckung_bei_median_pct": "Abdeckung bei Median (%)",
+        "abdeckung_bei_schwellenwert_pct": "Abdeckung bei Schwellenwert (%)",
     }),
     hide_index=True, use_container_width=True, height=420,
 )
@@ -241,7 +244,12 @@ st.markdown(
   Tech-Stellen also systematisch zu früh abschneiden und Handwerk-Stellen zu lange offen halten.
 
 **Vorschlag für eine Definition:** Statt einer festen Zahl lohnt sich ein Schwellenwert *pro
-Fachbereich*, z. B. der Median aus der Tabelle links als Richtwert — ergänzt um eine Sicherheitsmarge
-(z. B. Median + 1 Interview), da bei exakt dem Median nur die Hälfte der Fälle abgedeckt ist.
+Fachbereich* — der Median aus der Tabelle als Richtwert, ergänzt um eine Sicherheitsmarge von
++1 Interview, da beim Median nur rund die Hälfte der Fälle abgedeckt ist (Spalte "Abdeckung bei
+Median"). Die letzten beiden Spalten der Tabelle zeigen den Effekt konkret: Bei Handwerk & Bau
+deckt der Schwellenwert von 2 Interviews bereits 73% aller Hires ab (statt 51% beim reinen Median),
+bei Tech deckt ein Schwellenwert von 3 Interviews 69% ab. Als Faustregel über alle Fachbereiche
+hinweg bringt "+1 Interview" die Abdeckung meist von rund 50–60% auf 60–78% — ein guter Kompromiss
+zwischen "früh genug abschalten" und "den Hire nicht verpassen".
     """
 )

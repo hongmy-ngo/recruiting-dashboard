@@ -141,6 +141,18 @@ area_table = per_job.groupby("functional_area").agg(
     qualifiziert_pct=("qualifiziert_pct", lambda x: round(x.mean(), 1)),
 ).reset_index()
 area_table = area_table[area_table["n_hires"] >= 20].sort_values("median_interviews")
+
+# Konkreter Schwellenwert-Vorschlag: Median + 1 Interview Sicherheitsmarge.
+# Zeigt, wie viel % der Hires beim Median (~50%) vs. beim Schwellenwert
+# tatsaechlich schon abgedeckt sind.
+def _coverage(area, x):
+    sub = per_job[per_job["functional_area"] == area]
+    return round((sub["n_interviews_bis_hire"] <= x).mean() * 100, 1)
+
+area_table["empf_schwellenwert"] = area_table["median_interviews"] + 1
+area_table["abdeckung_bei_median_pct"] = area_table.apply(lambda r: _coverage(r["functional_area"], r["median_interviews"]), axis=1)
+area_table["abdeckung_bei_schwellenwert_pct"] = area_table.apply(lambda r: _coverage(r["functional_area"], r["empf_schwellenwert"]), axis=1)
+
 area_table.to_csv(f"{OUT_DIR}/interviews_bis_hire_je_fachbereich.csv", index=False)
 
 print(f"Fertig. Dateien liegen in {OUT_DIR}")
