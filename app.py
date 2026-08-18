@@ -187,45 +187,41 @@ hinweg) gab es bis zu diesem Zeitpunkt bereits? Das zeigt, ab wann eine Stelle i
     """
 )
 
-col_a, col_b = st.columns([3, 2])
+st.subheader("Nach wie vielen Interviews stand der Hire meistens schon fest?")
+st.caption(
+    "Beispiel: Liegt die Linie bei 2 Interviews auf 56%, heißt das: Bei 56% aller Stellen mit "
+    "einer Einstellung war der spätere Hire bereits nach höchstens 2 Interviews klar. "
+    "Verglichen werden alle Fachbereiche zusammen mit den zwei angefragten Beispielen "
+    "Tech und Craft & Construction (Handwerk & Bau)."
+)
+fig_cum = px.line(
+    cum_interviews, x="interviews", y="anteil_pct", color="gruppe", markers=True,
+    color_discrete_map={"Alle Fachbereiche": INK, "Tech": PINK, "Craft & Construction": "#B8135D"},
+)
+fig_cum.update_layout(**PLOTLY_LAYOUT, xaxis_title="Anzahl Interviews", yaxis_title="Anteil der Hires bereits erreicht (%)",
+                       height=420, legend_title="")
+st.plotly_chart(fig_cum, use_container_width=True)
 
-with col_a:
-    st.subheader("Nach wie vielen Interviews stand der Hire meistens schon fest?")
-    st.caption(
-        "Beispiel: Liegt die Linie bei 2 Interviews auf 56%, heißt das: Bei 56% aller Stellen mit "
-        "einer Einstellung war der spätere Hire bereits nach höchstens 2 Interviews klar. "
-        "Verglichen werden alle Fachbereiche zusammen mit den zwei angefragten Beispielen "
-        "Tech und Craft & Construction (Handwerk & Bau)."
-    )
-    fig_cum = px.line(
-        cum_interviews, x="interviews", y="anteil_pct", color="gruppe", markers=True,
-        color_discrete_map={"Alle Fachbereiche": INK, "Tech": PINK, "Craft & Construction": "#B8135D"},
-    )
-    fig_cum.update_layout(**PLOTLY_LAYOUT, xaxis_title="Anzahl Interviews", yaxis_title="Anteil der Hires bereits erreicht (%)",
-                           height=420, legend_title="")
-    st.plotly_chart(fig_cum, use_container_width=True)
+st.markdown(
+    "**Kernaussage:** Handwerk & Bau braucht im Schnitt spürbar weniger — bei der Hälfte dieser "
+    "Stellen reichte **1 Interview**, um den späteren Hire zu finden. Bei Tech-Stellen braucht es "
+    "typischerweise **2 Interviews**, und der Prozess zieht sich insgesamt länger (siehe Tabelle "
+    "unten: mehr Bewerbungen nötig, bevor überhaupt interviewt wird)."
+)
 
-    st.markdown(
-        "**Kernaussage:** Handwerk & Bau braucht im Schnitt spürbar weniger — bei der Hälfte dieser "
-        "Stellen reichte **1 Interview**, um den späteren Hire zu finden. Bei Tech-Stellen braucht es "
-        "typischerweise **2 Interviews**, und der Prozess zieht sich insgesamt länger (siehe Tabelle "
-        "rechts: mehr Bewerbungen nötig, bevor überhaupt interviewt wird)."
-    )
-
-with col_b:
-    st.subheader("Nach Fachbereich sortiert")
-    st.caption(
-        "Median = der Wert in der Mitte, weniger anfällig für Ausreißer als der Durchschnitt. "
-        "Nur Fachbereiche mit mindestens 20 Einstellungen gezeigt, damit die Zahlen belastbar sind."
-    )
-    st.dataframe(
-        area_threshold.rename(columns={
-            "functional_area": "Fachbereich", "n_hires": "Hires (n)",
-            "median_interviews": "Median Interviews bis Hire", "median_apps": "Median Bewerbungen bis Hire",
-            "avg_score": "Ø Fit-Score Bewerberpool", "qualifiziert_pct": "Qualifiziert (%)",
-        }),
-        hide_index=True, use_container_width=True, height=420,
-    )
+st.subheader("Nach Fachbereich sortiert")
+st.caption(
+    "Median = der Wert in der Mitte, weniger anfällig für Ausreißer als der Durchschnitt. "
+    "Nur Fachbereiche mit mindestens 20 Einstellungen gezeigt, damit die Zahlen belastbar sind."
+)
+st.dataframe(
+    area_threshold.rename(columns={
+        "functional_area": "Fachbereich", "n_hires": "Hires (n)",
+        "median_interviews": "Median Interviews bis Hire", "median_apps": "Median Bewerbungen bis Hire",
+        "avg_score": "Ø Fit-Score Bewerberpool", "qualifiziert_pct": "Qualifiziert (%)",
+    }),
+    hide_index=True, use_container_width=True, height=420,
+)
 
 st.markdown(
     """
