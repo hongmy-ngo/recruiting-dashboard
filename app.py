@@ -196,7 +196,7 @@ st.caption(
 )
 fig_cum = px.line(
     cum_interviews, x="interviews", y="anteil_pct", color="gruppe", markers=True,
-    color_discrete_map={"Alle Fachbereiche": INK, "Tech": PINK, "Craft & Construction": "#B8135D"},
+    color_discrete_map={"Alle Fachbereiche": INK, "Tech": "#1D3E8C", "Craft & Construction": PINK},
 )
 fig_cum.update_layout(**PLOTLY_LAYOUT, xaxis_title="Anzahl Interviews", yaxis_title="Anteil der Hires bereits erreicht (%)",
                        height=420, legend_title="")
