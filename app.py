@@ -46,6 +46,7 @@ by_qualified = load("success_by_qualified")
 by_type = load("success_by_type")
 cum_interviews = load("interviews_bis_hire_kumulativ")
 area_threshold = load("interviews_bis_hire_je_fachbereich")
+discipline_interview_threshold = load("interviews_bis_hire_je_discipline")
 discipline_threshold = load("bewerbungen_je_discipline")
 
 st.title("Recruiting-Dashboard")
@@ -253,6 +254,27 @@ bei Tech deckt ein Schwellenwert von 3 Interviews 69% ab. Als Faustregel über a
 hinweg bringt "+1 Interview" die Abdeckung meist von rund 50–60% auf 60–78% — ein guter Kompromiss
 zwischen "früh genug abschalten" und "den Hire nicht verpassen".
     """
+)
+
+st.subheader("Interview-Schwellenwert nach Discipline (statt nur Fachbereich)")
+st.caption(
+    "Gleiche Rechnung wie oben (Median + 1 Interview), aber auf Discipline-Ebene — der feineren "
+    "Kategorie innerhalb eines Fachbereichs. Nur Disciplines mit mindestens 15 Einstellungen gezeigt."
+)
+st.dataframe(
+    discipline_interview_threshold.rename(columns={
+        "discipline": "Discipline", "functional_area": "Fachbereich", "n_hires": "Hires (n)",
+        "median_interviews": "Median Interviews bis Hire",
+        "empf_schwellenwert": "Empf. Schwellenwert (Median + 1)",
+        "abdeckung_bei_median_pct": "Abdeckung bei Median (%)",
+        "abdeckung_bei_schwellenwert_pct": "Abdeckung bei Schwellenwert (%)",
+    }),
+    hide_index=True, use_container_width=True, height=420,
+)
+st.markdown(
+    "**Kernaussage:** Auch bei Interviews zeigt sich innerhalb der Fachbereiche nochmal Streuung — "
+    "z. B. reicht bei Tech für Cybersecurity & Privacy Engineering im Median **1 Interview**, "
+    "während IT Consulting **4** braucht. Ein Fachbereichs-weiter Schwellenwert glättet das weg."
 )
 
 st.divider()

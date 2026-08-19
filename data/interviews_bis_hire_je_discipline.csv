@@ -1,0 +1,56 @@
+discipline,functional_area,n_hires,median_interviews,empf_schwellenwert,abdeckung_bei_median_pct,abdeckung_bei_schwellenwert_pct
+Bauplanung,Craft & Construction,22,1.0,2.0,63.6,81.8
+Cybersecurity & Privacy Engineering,Tech,23,1.0,2.0,56.5,69.6
+Elektrohandwerk,Craft & Construction,17,1.0,2.0,76.5,82.4
+Fahrzeug- & Mobilitätstechnik,Mobility,19,1.0,2.0,57.9,73.7
+Taxation & Risk Management,Finance,54,1.0,2.0,51.9,74.1
+Technische Entwicklung & Konstruktion,Engineering & Production,20,1.0,2.0,60.0,75.0
+Produktionstechnik & Fertigungstechnologien,Engineering & Production,51,1.0,2.0,51.0,70.6
+Produkt- und Industriedesign,Engineering & Production,29,1.0,2.0,58.6,79.3
+Banking & Wealth Management,Finance,28,1.5,2.5,50.0,67.9
+Einkauf,Procurement & Supply Chain,28,2.0,3.0,71.4,85.7
+HR Generalists,Human Resources,55,2.0,3.0,56.4,65.5
+IT Support & Administration,Tech,103,2.0,3.0,52.4,64.1
+Elektrotechnik & Elektronik,Engineering & Production,84,2.0,3.0,63.1,78.6
+Bauleitung,Craft & Construction,36,2.0,3.0,75.0,80.6
+Bau- und Geowissenschaften,Craft & Construction,20,2.0,3.0,60.0,80.0
+DevOps & Cloud Engineering,Tech,15,2.0,3.0,66.7,66.7
+Management- und Strategieconsulting,"Management, Führung & Strategie",47,2.0,3.0,51.1,59.6
+Logistik,Procurement & Supply Chain,31,2.0,3.0,64.5,74.2
+Kundenorientierte Technik & Anwendung,Engineering & Production,35,2.0,3.0,65.7,68.6
+Inside Sales (Innendienst),Sales,40,2.0,3.0,62.5,77.5
+"Installation, Instandhaltung & technischer Service",Engineering & Production,31,2.0,3.0,67.7,80.6
+Qualitätssicherung & Prüftechnik,Engineering & Production,28,2.0,3.0,71.4,85.7
+Sachbearbeiter / Mitarbeiter,Support,127,2.0,3.0,63.8,74.8
+Sales Management (Leadership),Sales,29,2.0,3.0,72.4,72.4
+Medienproduktion & Publikation,Marketing,19,2.0,3.0,57.9,57.9
+Produktionsausführung und -betrieb,Engineering & Production,38,2.0,3.0,55.3,65.8
+Rechtsgehilfen & Administration,Legal,24,2.0,3.0,70.8,87.5
+SEO / Content Marketing,Marketing,38,2.0,3.0,55.3,63.2
+Grafikdesign / Webdesign / Mediendesign,Marketing,40,2.0,3.0,57.5,72.5
+Financial Planning & Analysis (FP&A) and Controlling,Finance,41,2.0,3.0,51.2,68.3
+"Energie-, Verfahrens- & Umwelttechnik",Engineering & Production,43,2.0,3.0,60.5,76.7
+Assistenten,Support,82,2.0,3.0,52.4,61.0
+Software Development & Engineering,Tech,135,2.0,3.0,60.7,75.6
+Technisches Gebäudemanagement,Craft & Construction,35,2.0,3.0,57.1,68.6
+Produktionsmanagement,Engineering & Production,26,2.0,3.0,69.2,76.9
+Field Sales (Außendienst),Sales,28,2.5,3.5,50.0,64.3
+Performance Marketing,Marketing,16,2.5,3.5,50.0,56.2
+Tech Projektmanagement & Product & Agile,Tech,20,2.5,3.5,50.0,70.0
+Recruiting,Human Resources,47,3.0,4.0,53.2,63.8
+Rechtsanwälte & Juristen,Legal,20,3.0,4.0,60.0,75.0
+Accounting,Finance,112,3.0,4.0,65.2,74.1
+Branding / Werbung / Kommunikation,Marketing,70,3.0,4.0,55.7,68.6
+Organisationsentwicklung,"Management, Führung & Strategie",69,3.0,4.0,59.4,65.2
+Marketing Generalisten,Marketing,110,3.0,4.0,58.2,70.0
+Corporate Finance,Finance,16,3.0,4.0,56.2,68.8
+Büro & Administration,Support,63,3.0,4.0,69.8,77.8
+Immobilienverwaltung & -management,Other,15,3.0,4.0,60.0,66.7
+Kundensupport und -service,Support,83,3.0,4.0,56.6,66.3
+Medizinische Versorgung und Behandlung,Healthcare,25,3.0,4.0,64.0,88.0
+Supply Chain Management,Procurement & Supply Chain,35,3.0,4.0,65.7,80.0
+Pflege und Betreuung,Healthcare,59,3.0,4.0,61.0,72.9
+(Key) Account Management,Sales,61,4.0,5.0,50.8,59.0
+IT Consulting,Tech,44,4.0,5.0,63.6,70.5
+Business Development / Sales,Sales,107,4.0,5.0,60.7,68.2
+Sales Operations & Enablement,Sales,19,5.0,6.0,52.6,52.6

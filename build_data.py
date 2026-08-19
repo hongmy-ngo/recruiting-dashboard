@@ -156,7 +156,27 @@ area_table["abdeckung_bei_schwellenwert_pct"] = area_table.apply(lambda r: _cove
 
 area_table.to_csv(f"{OUT_DIR}/interviews_bis_hire_je_fachbereich.csv", index=False)
 
-# 8c. Bewerbungs-Schwellenwert je Discipline (feiner als Fachbereich, siehe Analyse
+# 8c. Interview-Schwellenwert je Discipline (gleiche Logik wie 8b, aber feiner --
+# siehe Analyse im Dashboard-Chat: Discipline ist auch bei Interviews der staerkere
+# Treiber als Fachbereich).
+def _coverage_disc(discipline, x):
+    sub = per_job[per_job["discipline"] == discipline]
+    return round((sub["n_interviews_bis_hire"] <= x).mean() * 100, 1)
+
+disc_interviews = per_job.groupby("discipline").agg(
+    functional_area=("functional_area", lambda x: x.mode().iat[0]),
+    n_hires=("enquiry_pid", "count"),
+    median_interviews=("n_interviews_bis_hire", "median"),
+).reset_index()
+disc_interviews = disc_interviews[disc_interviews["n_hires"] >= 15].sort_values("median_interviews")
+disc_interviews["empf_schwellenwert"] = disc_interviews["median_interviews"] + 1
+disc_interviews["abdeckung_bei_median_pct"] = disc_interviews.apply(
+    lambda r: _coverage_disc(r["discipline"], r["median_interviews"]), axis=1)
+disc_interviews["abdeckung_bei_schwellenwert_pct"] = disc_interviews.apply(
+    lambda r: _coverage_disc(r["discipline"], r["empf_schwellenwert"]), axis=1)
+disc_interviews.to_csv(f"{OUT_DIR}/interviews_bis_hire_je_discipline.csv", index=False)
+
+# 8d. Bewerbungs-Schwellenwert je Discipline (feiner als Fachbereich, siehe Analyse
 # im Dashboard-Chat: Discipline ist der staerkste Treiber, nicht Bewerberqualitaet).
 # Median*1.5 als Sicherheitsmarge -- reiner Median deckt konstant nur ~50% der Hires
 # ab, +50% bringt ueber fast alle Disciplines hinweg auf ~60-80%.
