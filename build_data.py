@@ -213,4 +213,73 @@ disc_table["erreicht_schwellenwert_pct"] = [x[1] for x in _dauer_ergebnis]
 
 disc_table.to_csv(f"{OUT_DIR}/bewerbungen_je_discipline.csv", index=False)
 
+# 8e. Alternative Stopp-Regel: Bewerbungs-Stillstand statt fixer Bewerbungszahl.
+# Idee aus dem Dashboard-Chat: Bei Disciplines mit niedriger Erreichungsquote (z. B.
+# Field Sales, Tech Projektmanagement, Einkauf, Rechtsanwaelte) wird der empfohlene
+# Bewerbungs-Schwellenwert oft nie erreicht. Alternative: stoppen, wenn X Tage lang
+# keine neue Bewerbung eingeht -- das feuert IMMER (anders als die Bewerbungszahl-
+# Regel, die bei ~30-70% der Stellen nie ausloest). Frage: bleibt die Erfassungsquote
+# des Hires dabei vergleichbar? Getestet mit X=30 Tagen.
+STAGNATION_TAGE = 30
+
+def _stagnation_stop_day(dates, x):
+    d = np.sort(dates)
+    for i in range(len(d) - 1):
+        if d[i + 1] - d[i] >= x:
+            return d[i] + x
+    return d[-1] + x
+
+def _stagnation_stats(disc):
+    sub = apps[apps["discipline"] == disc]
+    rows = []
+    for pid, g in sub.groupby("enquiry_pid"):
+        dates = g["relative_date_of_selection"].dropna().values
+        if len(dates) == 0:
+            continue
+        rows.append({
+            "start": dates.min(),
+            "stop": _stagnation_stop_day(dates, STAGNATION_TAGE),
+            "hire": g["hire_secured_day"].iloc[0],
+        })
+    r = pd.DataFrame(rows)
+    abdeckung = round((r["hire"] <= r["stop"]).mean() * 100, 1)
+    median_tage = (r["stop"] - r["start"]).median()
+    return abdeckung, median_tage
+
+stagnation_table = disc_table[["discipline", "functional_area", "n_hires", "abdeckung_bei_schwellenwert_pct"]].copy()
+stagnation_table = stagnation_table.rename(columns={"abdeckung_bei_schwellenwert_pct": "abdeckung_bewerbungszahl_regel_pct"})
+_stag = stagnation_table["discipline"].apply(_stagnation_stats)
+stagnation_table["abdeckung_stagnation_pct"] = [x[0] for x in _stag]
+stagnation_table["median_tage_bis_stopp"] = [x[1] for x in _stag]
+stagnation_table["differenz_pct"] = round(
+    stagnation_table["abdeckung_stagnation_pct"] - stagnation_table["abdeckung_bewerbungszahl_regel_pct"], 1)
+stagnation_table = stagnation_table.sort_values("differenz_pct")
+stagnation_table.to_csv(f"{OUT_DIR}/stagnation_stopp_je_discipline.csv", index=False)
+
+# 8f. Getestet, aber verworfen: qualifizierte statt rohe Bewerbungszahl als Ziel.
+# Idee: vielleicht ist eine kleinere Zielzahl (nur qualifizierte Bewerbungen) leichter
+# erreichbar. Ergebnis: nein -- verschlechtert die Erreichungsquote in praktisch allen
+# Disciplines (im Schnitt -17 Prozentpunkte, 0 von 55 Disciplines verbessern sich).
+# Tabelle dokumentiert das Ergebnis, ist keine Empfehlung.
+total_qual = apps.groupby("enquiry_pid").agg(
+    discipline=("discipline", "first"),
+    n_qual_total=("is_qualified_application", "sum"),
+).reset_index()
+
+qual_rows = []
+for _, row in disc_table.iterrows():
+    disc = row["discipline"]
+    sub = total_qual[total_qual["discipline"] == disc]
+    med_q = sub["n_qual_total"].median()
+    thresh_q = round(med_q * 1.5)
+    reach_q = round((sub["n_qual_total"] >= thresh_q).mean() * 100, 1)
+    qual_rows.append({
+        "discipline": disc, "functional_area": row["functional_area"], "n_hires": row["n_hires"],
+        "raw_schwellenwert": row["empf_schwellenwert"], "raw_erreicht_pct": row["erreicht_schwellenwert_pct"],
+        "qualifiziert_schwellenwert": thresh_q, "qualifiziert_erreicht_pct": reach_q,
+        "differenz_pct": round(reach_q - row["erreicht_schwellenwert_pct"], 1),
+    })
+qual_compare = pd.DataFrame(qual_rows).sort_values("differenz_pct")
+qual_compare.to_csv(f"{OUT_DIR}/qualifiziert_vs_roh_je_discipline.csv", index=False)
+
 print(f"Fertig. Dateien liegen in {OUT_DIR}")

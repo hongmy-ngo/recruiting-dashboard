@@ -48,6 +48,8 @@ cum_interviews = load("interviews_bis_hire_kumulativ")
 area_threshold = load("interviews_bis_hire_je_fachbereich")
 discipline_interview_threshold = load("interviews_bis_hire_je_discipline")
 discipline_threshold = load("bewerbungen_je_discipline")
+stagnation_stopp = load("stagnation_stopp_je_discipline")
+qualifiziert_vs_roh = load("qualifiziert_vs_roh_je_discipline")
 
 st.title("Recruiting-Dashboard")
 st.caption("Erkenntnisse aus applications_dataset_v2.csv")
@@ -323,4 +325,65 @@ die ihn erreichen, schwankt die Dauer stark — von 26 Tagen (Grafikdesign / Web
 bis 225 Tagen (Taxation & Risk Management). IT Consulting braucht mit 211 Tagen am längsten unter
 den Tech-Disciplines — mehr als 7 Monate für 70 Bewerbungen.
     """
+)
+
+st.divider()
+
+# --- Alternative Stopp-Regeln: was tun, wenn der Schwellenwert kaum erreichbar ist? ---
+st.header("Wenn der Schwellenwert kaum erreichbar ist: zwei getestete Alternativen")
+st.markdown(
+    """
+Bei manchen Disciplines (z. B. Field Sales, Tech Projektmanagement, Einkauf, Rechtsanwälte & Juristen)
+erreicht nur ein Drittel bis knapp die Hälfte der Stellen den empfohlenen Bewerbungs-Schwellenwert
+überhaupt. Eine reine Bewerbungszahl-Regel läuft dort oft ins Leere. Zwei Alternativen wurden getestet.
+    """
+)
+
+st.subheader("✅ Bewerbungs-Stillstand als Stopp-Signal")
+st.caption(
+    "Regel: Stoppen, wenn 30 Tage lang keine neue Bewerbung eingeht — statt bei einer festen "
+    "Bewerbungszahl. Vorteil: löst IMMER aus (anders als die Bewerbungszahl-Regel, die bei vielen "
+    "Stellen nie zündet), weil sie auf Inaktivität statt auf einen unerreichbaren Zielwert reagiert."
+)
+st.dataframe(
+    stagnation_stopp.rename(columns={
+        "discipline": "Discipline", "functional_area": "Fachbereich", "n_hires": "Hires (n)",
+        "abdeckung_bewerbungszahl_regel_pct": "Abdeckung Bewerbungszahl-Regel (%)",
+        "abdeckung_stagnation_pct": "Abdeckung Stillstands-Regel (%)",
+        "median_tage_bis_stopp": "Median Tage bis Stopp",
+        "differenz_pct": "Differenz (Prozentpunkte)",
+    }),
+    hide_index=True, use_container_width=True, height=420,
+)
+st.markdown(
+    """
+**Ergebnis:** Im Schnitt über alle Disciplines fast gleichauf (+1,5 Prozentpunkte), mit Ausschlägen in
+beide Richtungen je Discipline. Der eigentliche Gewinn liegt nicht im Durchschnitt, sondern darin, dass
+diese Regel **strukturell nicht scheitern kann** — sie braucht keinen erreichbaren Zielwert, sondern
+reagiert direkt auf das, was tatsächlich passiert (oder eben nicht mehr passiert).
+    """
+)
+
+st.subheader("❌ Qualifizierte statt rohe Bewerbungszahl als Ziel — getestet, verworfen")
+st.caption(
+    "Idee: Vielleicht ist eine kleinere Zielzahl (nur qualifizierte Bewerbungen statt aller) leichter "
+    "erreichbar. Ergebnis: nein — verschlechtert die Erreichungsquote in praktisch jeder Discipline."
+)
+st.dataframe(
+    qualifiziert_vs_roh.rename(columns={
+        "discipline": "Discipline", "functional_area": "Fachbereich", "n_hires": "Hires (n)",
+        "raw_schwellenwert": "Schwellenwert (roh)", "raw_erreicht_pct": "Erreicht, roh (%)",
+        "qualifiziert_schwellenwert": "Schwellenwert (qualifiziert)",
+        "qualifiziert_erreicht_pct": "Erreicht, qualifiziert (%)",
+        "differenz_pct": "Differenz (Prozentpunkte)",
+    }),
+    hide_index=True, use_container_width=True, height=420,
+)
+st.markdown(
+    "**Ergebnis:** In 0 von 55 Disciplines verbessert sich die Erreichungsquote — im Schnitt "
+    "**-17 Prozentpunkte**. Selbst bei den vier eingangs schwierigen Disciplines (Field Sales, "
+    "Tech Projektmanagement, Einkauf, Rechtsanwälte) wird es nicht besser. Grund: Qualifizierte "
+    "Bewerbungen sind ein kleinerer, stärker schwankender Ausschnitt der Gesamtzahl — der Median "
+    "als Zielwert wird dadurch relativ gesehen nicht verlässlicher erreicht, nur die absolute Zahl "
+    "wird kleiner. **Nicht empfohlen.**"
 )
