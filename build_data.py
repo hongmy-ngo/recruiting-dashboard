@@ -195,6 +195,22 @@ disc_table["abdeckung_bei_median_pct"] = disc_table.apply(
 disc_table["abdeckung_bei_schwellenwert_pct"] = disc_table.apply(
     lambda r: _coverage_apps(per_job[per_job["discipline"] == r["discipline"]], r["empf_schwellenwert"]), axis=1)
 
+# Wie lange dauert es kalendarisch, bis der Schwellenwert an Bewerbungen erreicht ist?
+# Start = erste Bewerbung der Stelle, Ziel = n-te Bewerbung (n = Schwellenwert). Nicht
+# jede Stelle bekommt ueberhaupt so viele Bewerbungen -- daher zusaetzlich der Anteil,
+# der den Schwellenwert je erreicht.
+def _dauer_bis_schwellenwert(disc, n):
+    sub = apps[apps["discipline"] == disc]
+    def _tage(g):
+        d = g["relative_date_of_selection"].dropna().sort_values().values
+        return d[int(n) - 1] - d[0] if len(d) >= n else np.nan
+    dauer = sub.groupby("enquiry_pid").apply(_tage, include_groups=False)
+    return dauer.median(), round(dauer.notna().mean() * 100, 1)
+
+_dauer_ergebnis = disc_table.apply(lambda r: _dauer_bis_schwellenwert(r["discipline"], r["empf_schwellenwert"]), axis=1)
+disc_table["median_tage_bis_schwellenwert"] = [x[0] for x in _dauer_ergebnis]
+disc_table["erreicht_schwellenwert_pct"] = [x[1] for x in _dauer_ergebnis]
+
 disc_table.to_csv(f"{OUT_DIR}/bewerbungen_je_discipline.csv", index=False)
 
 print(f"Fertig. Dateien liegen in {OUT_DIR}")

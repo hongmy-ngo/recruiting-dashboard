@@ -1,56 +1,56 @@
-discipline,functional_area,n_hires,median_apps,empf_schwellenwert,abdeckung_bei_median_pct,abdeckung_bei_schwellenwert_pct
-Fahrzeug- & Mobilitätstechnik,Mobility,19,7.0,10,52.6,63.2
-Elektrohandwerk,Craft & Construction,17,9.0,14,58.8,64.7
-Kundenorientierte Technik & Anwendung,Engineering & Production,35,11.0,16,54.3,62.9
-Medienproduktion & Publikation,Marketing,19,12.0,18,52.6,68.4
-Pflege und Betreuung,Healthcare,59,12.0,18,50.8,74.6
-Medizinische Versorgung und Behandlung,Healthcare,25,13.0,20,56.0,72.0
-Qualitätssicherung & Prüftechnik,Engineering & Production,28,13.0,20,50.0,64.3
-"Installation, Instandhaltung & technischer Service",Engineering & Production,31,13.0,20,51.6,58.1
-Technisches Gebäudemanagement,Craft & Construction,35,14.0,21,51.4,51.4
-Rechtsanwälte & Juristen,Legal,20,14.0,21,50.0,75.0
-Produktionstechnik & Fertigungstechnologien,Engineering & Production,51,15.0,22,54.9,60.8
-Taxation & Risk Management,Finance,54,16.0,24,50.0,64.8
-Banking & Wealth Management,Finance,28,16.5,25,50.0,60.7
-Rechtsgehilfen & Administration,Legal,24,16.5,25,50.0,66.7
-Supply Chain Management,Procurement & Supply Chain,35,17.0,26,51.4,65.7
-Logistik,Procurement & Supply Chain,31,17.0,26,58.1,67.7
-Branding / Werbung / Kommunikation,Marketing,70,18.0,27,51.4,65.7
-Produktionsmanagement,Engineering & Production,26,18.0,27,53.8,61.5
-HR Generalists,Human Resources,55,18.0,27,50.9,67.3
-Inside Sales (Innendienst),Sales,40,19.5,29,50.0,57.5
-Management- und Strategieconsulting,"Management, Führung & Strategie",47,20.0,30,51.1,61.7
-Sachbearbeiter / Mitarbeiter,Support,127,21.0,32,52.0,71.7
-"Energie-, Verfahrens- & Umwelttechnik",Engineering & Production,43,22.0,33,53.5,72.1
-Produktionsausführung und -betrieb,Engineering & Production,38,22.0,33,52.6,76.3
-Einkauf,Procurement & Supply Chain,28,22.5,34,50.0,67.9
-Accounting,Finance,112,23.0,34,50.9,65.2
-Marketing Generalisten,Marketing,110,23.5,35,50.0,68.2
-Elektrotechnik & Elektronik,Engineering & Production,84,23.5,35,50.0,66.7
-Organisationsentwicklung,"Management, Führung & Strategie",69,24.0,36,52.2,71.0
-Produkt- und Industriedesign,Engineering & Production,29,24.0,36,51.7,65.5
-Financial Planning & Analysis (FP&A) and Controlling,Finance,41,24.0,36,56.1,65.9
-Corporate Finance,Finance,16,24.5,37,50.0,62.5
-SEO / Content Marketing,Marketing,38,24.5,37,50.0,68.4
-Sales Management (Leadership),Sales,29,25.0,38,55.2,75.9
-Bauleitung,Craft & Construction,36,25.0,38,52.8,72.2
-Bauplanung,Craft & Construction,22,25.0,38,54.5,72.7
-Grafikdesign / Webdesign / Mediendesign,Marketing,40,25.5,38,50.0,65.0
-Recruiting,Human Resources,47,26.0,39,57.4,76.6
-Büro & Administration,Support,63,26.0,39,54.0,71.4
-DevOps & Cloud Engineering,Tech,15,27.0,40,53.3,66.7
-Immobilienverwaltung & -management,Other,15,28.0,42,53.3,66.7
-Cybersecurity & Privacy Engineering,Tech,23,29.0,44,52.2,60.9
-IT Support & Administration,Tech,103,29.0,44,50.5,65.0
-Assistenten,Support,82,29.5,44,50.0,72.0
-Kundensupport und -service,Support,83,32.0,48,50.6,62.7
-Business Development / Sales,Sales,107,32.0,48,50.5,68.2
-Performance Marketing,Marketing,16,32.0,48,50.0,62.5
-Software Development & Engineering,Tech,135,38.0,57,51.9,68.1
-Sales Operations & Enablement,Sales,19,41.0,62,52.6,68.4
-(Key) Account Management,Sales,61,41.0,62,50.8,67.2
-Technische Entwicklung & Konstruktion,Engineering & Production,20,42.5,64,50.0,65.0
-Bau- und Geowissenschaften,Craft & Construction,20,43.5,65,50.0,80.0
-Tech Projektmanagement & Product & Agile,Tech,20,45.5,68,50.0,75.0
-IT Consulting,Tech,44,47.0,70,50.0,72.7
-Field Sales (Außendienst),Sales,28,50.0,75,50.0,78.6
+discipline,functional_area,n_hires,median_apps,empf_schwellenwert,abdeckung_bei_median_pct,abdeckung_bei_schwellenwert_pct,median_tage_bis_schwellenwert,erreicht_schwellenwert_pct
+Fahrzeug- & Mobilitätstechnik,Mobility,19,7.0,10,52.6,63.2,76.0,57.9
+Elektrohandwerk,Craft & Construction,17,9.0,14,58.8,64.7,84.0,82.4
+Kundenorientierte Technik & Anwendung,Engineering & Production,35,11.0,16,54.3,62.9,39.5,57.1
+Medienproduktion & Publikation,Marketing,19,12.0,18,52.6,68.4,76.0,68.4
+Pflege und Betreuung,Healthcare,59,12.0,18,50.8,74.6,62.0,52.5
+Medizinische Versorgung und Behandlung,Healthcare,25,13.0,20,56.0,72.0,95.0,44.0
+Qualitätssicherung & Prüftechnik,Engineering & Production,28,13.0,20,50.0,64.3,65.0,50.0
+"Installation, Instandhaltung & technischer Service",Engineering & Production,31,13.0,20,51.6,58.1,90.0,67.7
+Technisches Gebäudemanagement,Craft & Construction,35,14.0,21,51.4,51.4,48.0,60.0
+Rechtsanwälte & Juristen,Legal,20,14.0,21,50.0,75.0,94.0,35.0
+Produktionstechnik & Fertigungstechnologien,Engineering & Production,51,15.0,22,54.9,60.8,88.0,51.0
+Taxation & Risk Management,Finance,54,16.0,24,50.0,64.8,225.5,63.0
+Banking & Wealth Management,Finance,28,16.5,25,50.0,60.7,112.0,67.9
+Rechtsgehilfen & Administration,Legal,24,16.5,25,50.0,66.7,86.0,50.0
+Supply Chain Management,Procurement & Supply Chain,35,17.0,26,51.4,65.7,104.0,42.9
+Logistik,Procurement & Supply Chain,31,17.0,26,58.1,67.7,56.0,51.6
+Branding / Werbung / Kommunikation,Marketing,70,18.0,27,51.4,65.7,74.5,45.7
+Produktionsmanagement,Engineering & Production,26,18.0,27,53.8,61.5,45.0,42.3
+HR Generalists,Human Resources,55,18.0,27,50.9,67.3,83.0,41.8
+Inside Sales (Innendienst),Sales,40,19.5,29,50.0,57.5,95.0,57.5
+Management- und Strategieconsulting,"Management, Führung & Strategie",47,20.0,30,51.1,61.7,81.5,72.3
+Sachbearbeiter / Mitarbeiter,Support,127,21.0,32,52.0,71.7,81.0,47.2
+"Energie-, Verfahrens- & Umwelttechnik",Engineering & Production,43,22.0,33,53.5,72.1,151.5,51.2
+Produktionsausführung und -betrieb,Engineering & Production,38,22.0,33,52.6,76.3,158.5,52.6
+Einkauf,Procurement & Supply Chain,28,22.5,34,50.0,67.9,89.0,35.7
+Accounting,Finance,112,23.0,34,50.9,65.2,85.0,50.0
+Marketing Generalisten,Marketing,110,23.5,35,50.0,68.2,56.0,44.5
+Elektrotechnik & Elektronik,Engineering & Production,84,23.5,35,50.0,66.7,118.0,51.2
+Organisationsentwicklung,"Management, Führung & Strategie",69,24.0,36,52.2,71.0,108.0,56.5
+Produkt- und Industriedesign,Engineering & Production,29,24.0,36,51.7,65.5,71.0,48.3
+Financial Planning & Analysis (FP&A) and Controlling,Finance,41,24.0,36,56.1,65.9,50.5,43.9
+Corporate Finance,Finance,16,24.5,37,50.0,62.5,89.0,43.8
+SEO / Content Marketing,Marketing,38,24.5,37,50.0,68.4,62.0,50.0
+Sales Management (Leadership),Sales,29,25.0,38,55.2,75.9,124.0,44.8
+Bauleitung,Craft & Construction,36,25.0,38,52.8,72.2,136.5,50.0
+Bauplanung,Craft & Construction,22,25.0,38,54.5,72.7,167.0,68.2
+Grafikdesign / Webdesign / Mediendesign,Marketing,40,25.5,38,50.0,65.0,26.0,52.5
+Recruiting,Human Resources,47,26.0,39,57.4,76.6,93.5,55.3
+Büro & Administration,Support,63,26.0,39,54.0,71.4,62.0,42.9
+DevOps & Cloud Engineering,Tech,15,27.0,40,53.3,66.7,63.0,46.7
+Immobilienverwaltung & -management,Other,15,28.0,42,53.3,66.7,83.0,46.7
+Cybersecurity & Privacy Engineering,Tech,23,29.0,44,52.2,60.9,93.0,52.2
+IT Support & Administration,Tech,103,29.0,44,50.5,65.0,75.0,47.6
+Assistenten,Support,82,29.5,44,50.0,72.0,73.0,40.2
+Kundensupport und -service,Support,83,32.0,48,50.6,62.7,71.0,50.6
+Business Development / Sales,Sales,107,32.0,48,50.5,68.2,79.0,53.3
+Performance Marketing,Marketing,16,32.0,48,50.0,62.5,29.5,50.0
+Software Development & Engineering,Tech,135,38.0,57,51.9,68.1,115.5,50.4
+Sales Operations & Enablement,Sales,19,41.0,62,52.6,68.4,136.0,47.4
+(Key) Account Management,Sales,61,41.0,62,50.8,67.2,96.0,54.1
+Technische Entwicklung & Konstruktion,Engineering & Production,20,42.5,64,50.0,65.0,135.0,45.0
+Bau- und Geowissenschaften,Craft & Construction,20,43.5,65,50.0,80.0,206.0,50.0
+Tech Projektmanagement & Product & Agile,Tech,20,45.5,68,50.0,75.0,91.5,30.0
+IT Consulting,Tech,44,47.0,70,50.0,72.7,211.0,56.8
+Field Sales (Außendienst),Sales,28,50.0,75,50.0,78.6,177.0,32.1

@@ -303,6 +303,8 @@ st.dataframe(
         "empf_schwellenwert": "Empf. Schwellenwert (Median × 1,5)",
         "abdeckung_bei_median_pct": "Abdeckung bei Median (%)",
         "abdeckung_bei_schwellenwert_pct": "Abdeckung bei Schwellenwert (%)",
+        "median_tage_bis_schwellenwert": "Median Tage bis Schwellenwert erreicht",
+        "erreicht_schwellenwert_pct": "Stellen, die Schwellenwert je erreichen (%)",
     }),
     hide_index=True, use_container_width=True, height=420,
 )
@@ -314,5 +316,11 @@ verdeckt das: Innerhalb von Tech z. B. braucht IT Consulting (Median 47) mehr al
 Bewerbungen von DevOps & Cloud Engineering (Median 27). Die Faustregel "Median × 1,5" ist über fast
 alle Disciplines hinweg stabil bei 60–80% Abdeckung — eignet sich also als generische Regel, wenn
 man sie pro Discipline statt pro Fachbereich anwendet.
+
+**Wie lange dauert das kalendarisch?** Die letzten beiden Spalten zeigen: Nur rund die Hälfte aller
+Stellen erreicht ihren Schwellenwert überhaupt (viele bekommen nie genug Bewerbungen). Bei denen,
+die ihn erreichen, schwankt die Dauer stark — von 26 Tagen (Grafikdesign / Webdesign / Mediendesign)
+bis 225 Tagen (Taxation & Risk Management). IT Consulting braucht mit 211 Tagen am längsten unter
+den Tech-Disciplines — mehr als 7 Monate für 70 Bewerbungen.
     """
 )
