@@ -101,13 +101,14 @@ hires = df[df["relative_date_of_assurance"].notna() & df["success"]].groupby("en
 hires.name = "hire_secured_day"
 
 apps = df[["enquiry_pid", "relative_date_of_selection", "relative_date_of_interview", "functional_area",
-           "cjs_overall_score", "is_qualified_application"]].copy()
+           "discipline", "cjs_overall_score", "is_qualified_application"]].copy()
 apps = apps.merge(hires, on="enquiry_pid", how="inner")
 apps["app_before_hire"] = apps["relative_date_of_selection"] <= apps["hire_secured_day"]
 apps["interview_before_hire"] = apps["relative_date_of_interview"].notna() & (apps["relative_date_of_interview"] <= apps["hire_secured_day"])
 
 per_job = apps.groupby("enquiry_pid").agg(
     functional_area=("functional_area", "first"),
+    discipline=("discipline", "first"),
     n_apps_bis_hire=("app_before_hire", "sum"),
     n_interviews_bis_hire=("interview_before_hire", "sum"),
 ).reset_index()
@@ -154,5 +155,26 @@ area_table["abdeckung_bei_median_pct"] = area_table.apply(lambda r: _coverage(r[
 area_table["abdeckung_bei_schwellenwert_pct"] = area_table.apply(lambda r: _coverage(r["functional_area"], r["empf_schwellenwert"]), axis=1)
 
 area_table.to_csv(f"{OUT_DIR}/interviews_bis_hire_je_fachbereich.csv", index=False)
+
+# 8c. Bewerbungs-Schwellenwert je Discipline (feiner als Fachbereich, siehe Analyse
+# im Dashboard-Chat: Discipline ist der staerkste Treiber, nicht Bewerberqualitaet).
+# Median*1.5 als Sicherheitsmarge -- reiner Median deckt konstant nur ~50% der Hires
+# ab, +50% bringt ueber fast alle Disciplines hinweg auf ~60-80%.
+def _coverage_apps(sub_disc, x):
+    return round((sub_disc["n_apps_bis_hire"] <= x).mean() * 100, 1)
+
+disc_table = per_job.groupby("discipline").agg(
+    functional_area=("functional_area", lambda x: x.mode().iat[0]),
+    n_hires=("enquiry_pid", "count"),
+    median_apps=("n_apps_bis_hire", "median"),
+).reset_index()
+disc_table = disc_table[disc_table["n_hires"] >= 15].sort_values("median_apps")
+disc_table["empf_schwellenwert"] = (disc_table["median_apps"] * 1.5).round().astype(int)
+disc_table["abdeckung_bei_median_pct"] = disc_table.apply(
+    lambda r: _coverage_apps(per_job[per_job["discipline"] == r["discipline"]], r["median_apps"]), axis=1)
+disc_table["abdeckung_bei_schwellenwert_pct"] = disc_table.apply(
+    lambda r: _coverage_apps(per_job[per_job["discipline"] == r["discipline"]], r["empf_schwellenwert"]), axis=1)
+
+disc_table.to_csv(f"{OUT_DIR}/bewerbungen_je_discipline.csv", index=False)
 
 print(f"Fertig. Dateien liegen in {OUT_DIR}")

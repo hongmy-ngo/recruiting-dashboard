@@ -46,6 +46,7 @@ by_qualified = load("success_by_qualified")
 by_type = load("success_by_type")
 cum_interviews = load("interviews_bis_hire_kumulativ")
 area_threshold = load("interviews_bis_hire_je_fachbereich")
+discipline_threshold = load("bewerbungen_je_discipline")
 
 st.title("Recruiting-Dashboard")
 st.caption("Erkenntnisse aus applications_dataset_v2.csv")
@@ -251,5 +252,45 @@ deckt der Schwellenwert von 2 Interviews bereits 73% aller Hires ab (statt 51% b
 bei Tech deckt ein Schwellenwert von 3 Interviews 69% ab. Als Faustregel über alle Fachbereiche
 hinweg bringt "+1 Interview" die Abdeckung meist von rund 50–60% auf 60–78% — ein guter Kompromiss
 zwischen "früh genug abschalten" und "den Hire nicht verpassen".
+    """
+)
+
+st.divider()
+
+# --- Bewerbungs-Schwellenwert je Discipline ------------------------------
+st.header("Ab wie vielen Bewerbungen kann eine Anzeige schließen?")
+st.markdown(
+    """
+**Gleiche Frage, andere Einheit:** Statt Interviews wird hier gezählt, wie viele Bewerbungen bis
+zum Hire-Zeitpunkt bereits eingegangen waren — und zwar je **Discipline** (die feinere Kategorie
+innerhalb eines Fachbereichs), weil sich das dort deutlich stärker unterscheidet als auf
+Fachbereichs-Ebene. Bewerber-Qualität (Ø Fit-Score, Qualifiziert-Anteil) korreliert praktisch
+nicht mit der benötigten Bewerbungszahl (r ≈ -0,01 bis -0,05) — die Discipline selbst ist auch
+hier der Haupttreiber, nicht die Kandidat:innen-Qualität.
+    """
+)
+st.caption(
+    "Empf. Schwellenwert = Median × 1,5 (analog zur Interview-Regel, nur mit Faktor statt fixer "
+    "Marge, weil die Bewerbungszahlen viel größer sind als Interviewzahlen). Nur Disciplines mit "
+    "mindestens 15 Einstellungen gezeigt."
+)
+st.dataframe(
+    discipline_threshold.rename(columns={
+        "discipline": "Discipline", "functional_area": "Fachbereich", "n_hires": "Hires (n)",
+        "median_apps": "Median Bewerbungen bis Hire",
+        "empf_schwellenwert": "Empf. Schwellenwert (Median × 1,5)",
+        "abdeckung_bei_median_pct": "Abdeckung bei Median (%)",
+        "abdeckung_bei_schwellenwert_pct": "Abdeckung bei Schwellenwert (%)",
+    }),
+    hide_index=True, use_container_width=True, height=420,
+)
+st.markdown(
+    """
+**Kernaussage:** Die Spanne reicht von Median 7 Bewerbungen (Fahrzeug- & Mobilitätstechnik) bis
+Median 50 (Field Sales) — ein Faktor 7 zwischen den Extremen. Ein Fachbereichs-weiter Schwellenwert
+verdeckt das: Innerhalb von Tech z. B. braucht IT Consulting (Median 47) mehr als das Dreifache an
+Bewerbungen von DevOps & Cloud Engineering (Median 27). Die Faustregel "Median × 1,5" ist über fast
+alle Disciplines hinweg stabil bei 60–80% Abdeckung — eignet sich also als generische Regel, wenn
+man sie pro Discipline statt pro Fachbereich anwendet.
     """
 )
